@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ product.name }} - SWOON {% endblock %}
+{% block content %}
+<div class="container">
+        <br>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                <div>
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="min-width: 300px; max-width: 300px;">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <div>
+                    <h1 class="my_product_title">상품명 : {{ product.name }}</h1>
+                    <p>가격 : {{ product.price }} KRW</p>
+                    <p class="my_title">Product Description</p>
+                    <p class="text-justify my_product_text">{{ product.description }}</p>
+                    <input type="number" name="ordercount" min="1"  id='order_quantity' value="1" autofocus style="width: 100px; height: 35px;">
+                    {% if product.stock <= 0 %}
+                        <p class="text-justify my_product_text"><b>Out of Stock</b></p>
+                    {% else %}
+                        <input type="button" class="pay_now_btn btn btn-secondary" value="구매하기">
+                        <input type="button" class="add_cart_btn btn btn-secondary" value="장바구니담기">
+<!--                        <a class="pay_now_btn btn btn-secondary" href="/">구매하기</a>-->
+<!--                        <a class="add_cart_btn btn btn-secondary" href="/">장바구니담기</a>-->
+                    {% endif %}
+                    <h1 id="my_product_title" class="my_product_title">총 상품가격 : {{ product.price }}KRW</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+<!-- ajax로 값 넘기기 -->
+    let pay_now_btn = document.querySelector('.pay_now_btn');
+    pay_now_btn.addEventListener('click', e=> {
+        let order_quantity = document.querySelector('#order_quantity').value;
+        let param = {
+            'order_quantity': order_quantity,
+        }
+
+        $.ajax({
+            url : '/order/pay/',
+            type: 'POST',
+            datatype: 'json',
+            data: JSON.stringify(param),
+            headers: {
+                'X-CSRFTOKEN' : '{{ csrf_token }}'
+            },
+            success: function(){
+                console.log(data);
+            },
+            error: function(){
+                alert('에러 ㅋㅋ');
+            }
+        });
+    });
+
+<!-- 값 바뀌는거 -->
+    $("#order_quantity").bind('change', function() {
+        var quantity = document.getElementById("order_quantity").value;
+        document.getElementById('my_product_title').innerHTML = "총 상품가격 : "+{{ product.price }}*quantity+"KRW";
+        if (document.getElementById('order_quantity').value > {{ product.stock }}){
+            document.getElementById('order_quantity').value = {{ product.stock }};
+            document.getElementById('my_product_title').innerHTML = "총 상품가격 : "+{{ product.price }}*{{ product.stock }}+"KRW";
+            alert("재고가 더 이상 없습니다.");
+        };
+    });
+
+</script>
+{% endblock %}

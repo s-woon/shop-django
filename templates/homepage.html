@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {% if product %}
+        {{ product.name }} - SWOON
+    {% else %}
+        SWOON SHOP
+    {% endif %}
+{% endblock %}
+{% block content %}
+{% endblock %}

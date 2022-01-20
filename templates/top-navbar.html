@@ -1,0 +1,23 @@
+{% load static %}
+
+<div class="container">
+    <div class="my_custom_menu">
+        <ul>
+            {% if request.user.is_authenticated %}
+                <li>
+                    <img src="{% static 'image/hi.png' %}" style="width:20px; height:20px;"> Welcome, {{ user.username }} <i class="fas fa-user-circle"></i>
+                </li>
+                <li>
+                    <a href="{% url 'common:logout' %}">Sign out <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'common:signup' %}">Sign Up <i class="fas fa-user-plus"></i></a>
+                </li>
+                <li>
+                    <a href="{% url 'common:login' %}">Sign In <i class="fas fa-sign-in-alt"></i></a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
