@@ -7,5 +7,5 @@ from . import views
 app_name = 'order'
 
 urlpatterns = [
-    path('pay/', views.pay, name='pay'),
+    # path('pay/', views.pay, name='pay'),
 ]

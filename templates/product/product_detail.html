@@ -21,11 +21,13 @@
                         <p class="text-justify my_product_text"><b>Out of Stock</b></p>
                     {% else %}
                         <input type="button" class="pay_now_btn btn btn-secondary" value="구매하기">
+
                         <input type="button" class="add_cart_btn btn btn-secondary" value="장바구니담기">
 <!--                        <a class="pay_now_btn btn btn-secondary" href="/">구매하기</a>-->
 <!--                        <a class="add_cart_btn btn btn-secondary" href="/">장바구니담기</a>-->
                     {% endif %}
                     <h1 id="my_product_title" class="my_product_title">총 상품가격 : {{ product.price }}KRW</h1>
+                    <input type="hidden" id="product_id" value="{{ product.id }}">
                 </div>
             </div>
         </div>
@@ -34,24 +36,27 @@
 <!-- ajax로 값 넘기기 -->
     let pay_now_btn = document.querySelector('.pay_now_btn');
     pay_now_btn.addEventListener('click', e=> {
+        let order_pro_id = document.querySelector('#product_id').value;
         let order_quantity = document.querySelector('#order_quantity').value;
         let param = {
+            'order_pro_id': order_pro_id,
             'order_quantity': order_quantity,
         }
-
         $.ajax({
-            url : '/order/pay/',
+            url : '{% url 'cart:cart' %}',
             type: 'POST',
             datatype: 'json',
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(param),
             headers: {
                 'X-CSRFTOKEN' : '{{ csrf_token }}'
             },
-            success: function(){
-                console.log(data);
+            success: function(data){
+                window.location.href= "/cart/pay/";
             },
             error: function(){
-                alert('에러 ㅋㅋ');
+                window.location.href= "/cart/pay/";
+                alert('에러 ㅋㅋ루삥뽕');
             }
         });
     });
