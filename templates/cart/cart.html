@@ -3,18 +3,9 @@
 {% block content %}
 <h1>testzz</h1>
 
-<h2>{{ request.body.order_pro_id }}</h2>
-{{ request }}
+<h2>{{ jsonObject }}</h2>
 
-{% if request.body %}
-{% for test in request.body %}
-{{ test }}
-123
-{% endfor %}
-{% else %}
-321
-{% endif %}
 
-<h2>{{ context.order_quantity }}</h2>
+<h2>{{ jsonObject.order_quantity }}</h2>
 
 {% endblock %}

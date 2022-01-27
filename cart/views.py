@@ -5,21 +5,24 @@ from django.http import JsonResponse
 import json
 import requests
 # Create your views here.
+import requests
 
 # product = Product.objects.get(id=jsonObject.order_pro_id)
-@csrf_exempt
 def cart(request):
     print(request)
     print("여기", request.body)
     jsonObject = json.loads(request.body)
-    context = jsonObject
+    context = { "jsonObject" : jsonObject}
     print(context)
-    # return JsonResponse(context)
-    return render(request, 'cart/cart.html', context)
+    return JsonResponse({"ffff":"ccccc"})
+# {"ffff":"ccccc"}
 
 def pay(request):
+
+
     return render(request, 'cart/cart.html')
 
+# window.location.href= "/cart/pay/";
 
 # @csrf_exempt
 # def add_cart(request):
