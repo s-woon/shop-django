@@ -13,9 +13,9 @@
         <div class="row mx-auto">
             {% for product in object_list %}
             <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
-                <div class="card text-center" style="min-width: 300px; max-height: 300px;">
-                    <a href="{% url 'product:product_detail' product.id %}"><img class="card-img-top my_image" src="{{ product.image.url }}" alt="{{ product.name }}" style="min-height: 200px; max-height: 200px;"></a>
-                    <div class="card-body">
+                <div class="card text-center testDiv" style="min-width: 300px; max-height: 300px;">
+                    <a id="test1" href="{% url 'product:product_detail' product.id %}"><img id="test" class="card-img-top my_image" src="{{ product.image.url }}" alt="{{ product.name }}" style="min-height: 200px; max-height: 200px;"></a>
+                    <div class="card-body" >
                         <h4>{{ product.name }}</h4>
                         <p>{{ product.price }} KRW</p>
                     </div>
@@ -35,4 +35,28 @@
         </div>
         <br>
     </div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script>
+
+$(function(){
+
+    var testSession = "ses";
+
+
+    $(".testDiv > a").on( "click", function(event) {
+
+        if(testSession=="ses"){
+
+        }
+        else{
+            alert("로그인을 해주세요");
+            event.preventDefault();
+        }
+    });
+
+
+})
+
+
+</script>
 {% endblock %}

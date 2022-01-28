@@ -14,7 +14,7 @@ def cart(request):
     jsonObject = json.loads(request.body)
     context = { "jsonObject" : jsonObject}
     print(context)
-    return JsonResponse({"ffff":"ccccc"})
+    return JsonResponse(context)
 # {"ffff":"ccccc"}
 
 def pay(request):
