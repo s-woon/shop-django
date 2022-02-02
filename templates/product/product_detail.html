@@ -21,10 +21,7 @@
                         <p class="text-justify my_product_text"><b>Out of Stock</b></p>
                     {% else %}
                         <input type="button" class="pay_now_btn btn btn-secondary" value="구매하기">
-
                         <input type="button" class="add_cart_btn btn btn-secondary" value="장바구니담기">
-<!--                        <a class="pay_now_btn btn btn-secondary" href="/">구매하기</a>-->
-<!--                        <a class="add_cart_btn btn btn-secondary" href="/">장바구니담기</a>-->
                     {% endif %}
                     <h1 id="my_product_title" class="my_product_title">총 상품가격 : {{ product.price }}KRW</h1>
                     <input type="hidden" id="product_id" value="{{ product.id }}">
@@ -43,7 +40,7 @@
             'order_quantity': order_quantity,
         }
         $.ajax({
-            url : '{% url 'cart:cart' %}',
+            url : '{% url 'cart:add_cart' %}',
             type: 'POST',
             datatype: 'json',
             contentType: 'application/json; charset=utf-8',

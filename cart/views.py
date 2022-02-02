@@ -1,24 +1,28 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 import json
-import requests
-# Create your views here.
+from cart.models import CartItem
+from product.models import Product
 import requests
 
-# product = Product.objects.get(id=jsonObject.order_pro_id)
-def cart(request):
-    print(request)
-    print("여기", request.body)
+
+# @login_required(login_url='common:login')
+def add_cart(request):
+    cart = CartItem()
     jsonObject = json.loads(request.body)
-    context = { "jsonObject" : jsonObject}
-    print(context)
-    return JsonResponse(context)
-# {"ffff":"ccccc"}
+    # DB에 그냥 계속 추가되는 오류수정하기 위해
+    # cart.user html에서 유저 id값도 던져서 id값 검사 후
+    cart.product = Product.objects.get(id=jsonObject["order_pro_id"])
+    cart.quantity = int(jsonObject["order_quantity"])
+    cart.save()
+    return JsonResponse(jsonObject)
+
 
 def pay(request):
-
 
     return render(request, 'cart/cart.html')
 
