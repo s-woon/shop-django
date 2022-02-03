@@ -29,6 +29,8 @@
             </div>
         </div>
     </div>
+
+{% if user.is_authenticated %}
 <script>
 <!-- ajax로 값 넘기기 -->
     let pay_now_btn = document.querySelector('.pay_now_btn');
@@ -49,12 +51,11 @@
                 'X-CSRFTOKEN' : '{{ csrf_token }}'
             },
             async: false,
-            success : function(data, status, xhr) {
-              console.log(data);
+            success : function(data) {
               window.location.href ="{% url 'cart:pay' %}";
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-              alert("error= " + errorThrown);
+            error: function(data) {
+              alert("error= ");
             }
         });
     });
@@ -69,6 +70,11 @@
             alert("재고가 더 이상 없습니다.");
         };
     });
-
 </script>
+{% else %}
+<script>
+    alert('로그인 후 이용해주세요');
+    window.location.href = "{% url 'common:login' %}";
+</script>
+{% endif %}
 {% endblock %}

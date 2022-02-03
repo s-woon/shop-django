@@ -17,12 +17,3 @@ import json
 #     print(context)
 #     return JsonResponse(context)
 
-@csrf_exempt
-def cart(request):
-    # jsonObject = json.loads(request.body)
-    # result = jsonObject
-    # print(result["order_pro_id"])
-
-    return render(request, 'cart/cart.html', result)
-    # return JsonResponse(result)
-
