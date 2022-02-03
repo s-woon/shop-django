@@ -47,12 +47,16 @@
     function delRow(){
         var $obj = $("input[name='chk']");
         var checkCount = $obj.size();
-        for (var i=0; i<checkCount; i++){
-            if($obj.eq(i).is(":checked")){
-                $obj.eq(i).parent().parent().remove();
+        if($("input[name='chk']:checked").length===0){
+            alert("삭제할 상품을 선택해주세요.");
+        }
+        else{
+            for (var i=0; i<checkCount; i++){
+                if($obj.eq(i).is(":checked")){
+                    $obj.eq(i).parent().parent().remove();
+                }
             }
         }
-
     }
 </script>
 {% endblock %}
