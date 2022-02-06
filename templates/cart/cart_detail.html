@@ -38,6 +38,7 @@
             <td class="price">{{ item.product.price }}</td>
             <td><input type="number" class="quantity" min="1" value="{{ item.quantity }}" style="width: 100px; height: 35px; line-height: 35px;"></td>
             <td class="amount">{{ item.sub_total }}</td>
+            <input type="hidden" class="stock" value="{{ item.product.stock }}">
         </tr>
         {% endfor %}
         </tbody>
@@ -68,16 +69,22 @@
 	    var proName = $(this).parent().prev().prev().text();
 	    var proPrice = $(this).parent().prev().text();
 	    var proQuantity = $(this).val();
-	    var subTotal = $(this).parent().next().text();
-	    console.log(proName);
-	    console.log(proPrice);
-	    console.log(proQuantity);
-	    console.log(subTotal);
+	    var proAmount = $(this).parent().next().text();
+	    var stock = $(this).parent().next().next().val();
+        var proPrice = Number(proPrice);
+        var proQuantity = Number(proQuantity);
+
+        console.log(proQuantity);
+        console.log(proPrice);
+        console.log($(proAmount).val(proQuantity*proPrice));
+        console.log(proQuantity*proPrice);
+
+
+	    if (proQuantity > stock ){
+	        $(this).attr('value', stock);
+            alert("재고가 더 이상 없습니다.");
+	    };
     });
-
-
-
-
 
 </script>
 {% endblock %}

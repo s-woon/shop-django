@@ -1,0 +1,36 @@
+    var trCount = $(".table > tbody > tr").length;
+    var quantity_id = [];
+    for (var i=0; i < trCount; i++) {
+        quantity_id.push($("[name^='checkforid']").eq(i).attr("value"));
+    };
+    alert(quantity_id);
+
+    for (var i=0; i < trCount; i++) {
+
+        $("#"+quantity_id[i]).bind('change', function() {
+        var quantity;
+        quantity = $("#"+quantity_id[i]).val();
+        alert($("#"+quantity_id[i]).val());
+        var price = $("#price").text();
+        $("#amount").html(price*quantity);
+        });
+    };
+
+다 작동하는데 값을 못넣음
+var quantity = $('.quantity');
+    quantity.bind('change', function() {
+	    $(this).val("111");
+	    var parentTr = $(this).parent().parent();
+	    console.log(parentTr);
+	    var proName = $(parentTr+'td:nth-child(3)').val();
+	    console.log(proName);
+    });
+        
+
+첫번째 줄만 작동하는거
+    $("#quantity").bind('change', function() {
+        var quantity;
+        quantity = $("#quantity").val();
+        var price = $("#price").text();
+        $("#amount").html(price*quantity);
+    });
