@@ -42,7 +42,7 @@
             'order_quantity': order_quantity,
         }
         $.ajax({
-            url : '{% url 'cart:add_cart' %}',
+            url : "{% url 'cart:add_cart' %}",
             type: 'POST',
             datatype: 'json',
             contentType: 'application/json; charset=utf-8',

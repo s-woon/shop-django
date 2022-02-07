@@ -21,6 +21,17 @@ def add_cart(request):
     cart.save()
     return HttpResponse("true", content_type='application/json')
 
+def update_cart(request):
+    cart = CartItem()
+    jsonObject = json.loads(request.body)
+    print(request.body)
+    cart.user_id = request.user.id
+    cart.id = CartItem.objects.get(id=jsonObject["order_id"])
+
+    cart.quantity = int(jsonObject["order_quantity"])
+    cart.save()
+    return HttpResponse("true", content_type='application/json')
+
 def pay(request):
     model = CartItem.objects.filter(user_id=request.user.id)
     context = {

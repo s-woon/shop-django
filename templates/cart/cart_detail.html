@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+
 <style>
     table {
         text-align:center;
@@ -37,54 +38,97 @@
             <td class="name">{{ item.product.name }}</td>
             <td class="price">{{ item.product.price }}</td>
             <td><input type="number" class="quantity" min="1" value="{{ item.quantity }}" style="width: 100px; height: 35px; line-height: 35px;"></td>
-            <td class="amount">{{ item.sub_total }}</td>
+            <td class="sub_amount" style="width: 150px;">{{ item.sub_total }}</td>
+            <input type="hidden" class="proId" value="{{ item.product.id }}">
             <input type="hidden" class="stock" value="{{ item.product.stock }}">
+            <input type="hidden" class="ordId" value="{{ item.id }}">
         </tr>
         {% endfor %}
+        <tr>
+            <td colspan="6"><h3 class="amount" style="text-align:right; margin-top: 20px; margin-right: 160px;">총 합계금액 : </h3></td>
+        </tr>
         </tbody>
     </table>
 </div>
-<div style="width: 400px; float: right; margin-right: 200px;">
-    <button type="button" class="btn btn-dark" onClick="delRow();">선택상품삭제</button>
-    <button type="button" class="btn btn-dark">장바구니비우기</button>
+<div>
+    <div style="width: 250px; margin: 20px auto;">
+        <button type="button" class="btn btn-dark" onClick="delRow();">선택상품삭제</button>
+        <button type="button" class="btn btn-dark">장바구니비우기</button>
+    </div>
 </div>
-
+<table style="width: 700px; border: 1px solid black; margin: 30px auto;">
+    <tr>
+        <td style="border: 1px solid black;">
+    <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호">
+        </td>
+        <td style="border: 1px solid black;">
+    <input type="button" class="btn btn-primary btn-lg btn-block" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black;">
+    <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소">
+        </td>
+        <td style="border: 1px solid black;">
+    <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소">
+        </td>
+    </tr>
+    <span id="guide" style="color:#999;display:none"></span>
+    <tr>
+        <td colspan="2" style="border: 1px solid black;">
+    <input type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="border: 1px solid black;">
+    <input type="text" class="form-control" id="sample4_extraAddress" placeholder="참고항목">
+        </td>
+    </tr>
+</table>
 <script>
-    function delRow(){
-        var $obj = $("input[name='chk']");
-        var checkCount = $obj.size();
-        if($("input[name='chk']:checked").length===0){
-            alert("삭제할 상품을 선택해주세요.");
-        }
-        else{
-            for (var i=0; i<checkCount; i++){
-                if($obj.eq(i).is(":checked")){
-                    $obj.eq(i).parent().parent().remove();
-                }
-            }
-        }
-    };
-
     $('.quantity').bind('change', function() {
-	    var proName = $(this).parent().prev().prev().text();
-	    var proPrice = $(this).parent().prev().text();
-	    var proQuantity = $(this).val();
-	    var proAmount = $(this).parent().next().text();
-	    var stock = $(this).parent().next().next().val();
+        <!--변수에 값 담기-->
+        var proName = $(this).parent().prev().prev().text();
+        var proPrice = $(this).parent().prev().text();
+        var proQuantity = $(this).val();
+        var proAmount = $(this).parent().next().text();
+        var proId = $(this).parent().next().next().val();
+        var stock = $(this).parent().next().next().next().val();
+        var ordId = $(this).parent().next().next().next().next().val();
+
+        <!--정수형 변환-->
         var proPrice = Number(proPrice);
         var proQuantity = Number(proQuantity);
 
-        console.log(proQuantity);
-        console.log(proPrice);
-        console.log($(proAmount).val(proQuantity*proPrice));
-        console.log(proQuantity*proPrice);
-
-
-	    if (proQuantity > stock ){
-	        $(this).attr('value', stock);
-            alert("재고가 더 이상 없습니다.");
-	    };
+        <!--ajax 값 넘기기-->
+        let order_pro_id = proId;
+        let order_quantity = proQuantity;
+        let order_id = ordId;
+        let param = {
+            'order_pro_id': order_pro_id,
+            'order_quantity': order_quantity,
+            'order_id': order_id,
+        }
+        $.ajax({
+            url : "{% url 'cart:update_cart' %}",
+            type: 'POST',
+            datatype: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(param),
+            headers: {
+                'X-CSRFTOKEN' : '{{ csrf_token }}'
+            },
+            async: false,
+            success : function(data) {
+              console.log("성공");
+            },
+            error: function(data) {
+              alert("error= cart");
+            }
+        });
     });
-
 </script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="{% static 'js/cart_detail.js' %}"></script>
 {% endblock %}
+

@@ -34,3 +34,24 @@ var quantity = $('.quantity');
         var price = $("#price").text();
         $("#amount").html(price*quantity);
     });
+    
+    
+///////////////////////////////////////////////
+
+<!--재고체크-->
+	    if (proQuantity > stock ){
+	        $(this).attr('value', stock);
+	        $(this).parent().next().text(stock*proPrice);
+	        console.log($(this).parent().next().text(stock*proPrice));
+            alert("재고가 더 이상 없습니다.");
+	    };
+
+	    <!--수량에 따라 합계 바꾸기-->
+        $(this).parent().next().text(proQuantity*proPrice);
+
+        var $objTr = $(".container tbody tr");
+        var trCount = $objTr.size();
+        for (var i=1; i<trCount; i++){
+            console.log(Object.keys($objTr));
+            console.log($(".sub_amount").text());
+        };
