@@ -50,9 +50,8 @@
             headers: {
                 'X-CSRFTOKEN' : '{{ csrf_token }}'
             },
-            async: false,
             success : function(data) {
-              window.location.href ="{% url 'cart:pay' %}";
+              window.location.href ="{% url 'cart:cart' %}";
             },
             error: function(data) {
               alert("error= ");

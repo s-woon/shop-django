@@ -1,3 +1,4 @@
+
 function delRow(){
         var $obj = $("input[name='chk']");
         var checkCount = $obj.size();
@@ -8,10 +9,110 @@ function delRow(){
             for (var i=0; i<checkCount; i++){
                 if($obj.eq(i).is(":checked")){
                     $obj.eq(i).parent().parent().remove();
+
+                    var del_id = $obj.eq(i).parent().parent().attr('data-itemId');
+                    let param ={
+                        'del_id': del_id,
+                    };
+                    $.ajax({
+                        url : del_cart,
+                        type: 'POST',
+                        datatype: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(param),
+                        headers: {
+                            'X-CSRFTOKEN' : '{{ csrf_token }}'
+                        },
+                        success : function(data) {
+                        console.log("delete success");
+                        },
+                        error: function(data) {
+                        alert("error= cart");
+                        }
+                    });
                 }
             }
         }
     };
+
+function delAllRow(){
+        var $obj = $("input[name='chk']");
+        var checkCount = $obj.size();
+        for (var i=0; i<checkCount; i++){
+            $obj.eq(i).parent().parent().remove();
+            var del_userId = $obj.eq(i).parent().parent().attr('data-userId');
+            }
+        let param ={
+            'del_userId': del_userId,
+        };
+        $.ajax({
+            url : del_all_cart,
+            type: 'POST',
+            datatype: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(param),
+            headers: {
+                'X-CSRFTOKEN' : '{{ csrf_token }}'
+            },
+            success : function(data) {
+            console.log("delete all success");
+            alert("장바구니를 비웠습니다.");
+            },
+            error: function(data) {
+            alert("error= delete all");
+            }
+        });
+    };
+
+
+$('.quantity').bind('change', function() {
+        <!--변수에 값 담기-->
+        var proName = $(this).parent().prev().prev().text();
+        var proPrice = $(this).parent().prev().text();
+        var proQuantity = $(this).val();
+        var proAmount = $(this).parent().next().text();
+        var proId = $(this).parent().next().next().val();
+        var stock = $(this).parent().next().next().next().val();
+        var ordId = $(this).parent().next().next().next().next().val();
+
+        <!--정수형 변환-->
+        var proPrice = Number(proPrice);
+        var proQuantity = Number(proQuantity);
+
+        <!--ajax 값 넘기기-->
+        let order_pro_id = proId;
+        let order_quantity = proQuantity;
+        let order_id = ordId;
+        let param = {
+            'order_pro_id': order_pro_id,
+            'order_quantity': order_quantity,
+            'order_id': order_id,
+        }
+        $.ajax({
+            url : update_cart,
+            type: 'POST',
+            datatype: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(param),
+            headers: {
+                'X-CSRFTOKEN' : '{{ csrf_token }}'
+            },
+            success : function(data) {
+              console.log("update success");
+            },
+            error: function(data) {
+              alert("error= cart");
+            }
+        });
+
+
+
+        <!--수량에 따라 합계 바꾸기-->
+        $(this).parent().next().text(proQuantity*proPrice);
+
+        console.log($('.sub_amount_val').val());
+
+    });
 
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
 function sample4_execDaumPostcode() {

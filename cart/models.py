@@ -14,8 +14,15 @@ class CartItem(models.Model):
         verbose_name = '장바구니'
         verbose_name_plural = f'{verbose_name} 목록'
 
+    @property
     def sub_total(self):
         return self.product.price * self.quantity
+
+    @property
+    def get_cart_total(self):
+        orderItems = self.cartitem_set.all()
+        total = sum([item.sub_total for item in orderItems])
+        return total
 
     def __str__(self):
         return self.product.name

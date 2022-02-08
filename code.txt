@@ -55,3 +55,22 @@ var quantity = $('.quantity');
             console.log(Object.keys($objTr));
             console.log($(".sub_amount").text());
         };
+        
+        
+        
+        
+
+	    <!--수량에 따라 합계 바꾸기-->
+        $(this).parent().next().text(proQuantity*proPrice);
+
+        <!--수량에 따라 총 합계 바꾸기-->
+        var amount = Number();
+        var $objTr = $(".container tbody tr");
+        var trCount = $objTr.size()-1;
+        for (var i=1; i<trCount; i++){
+            var sub_amount_str = $objTr.eq(i).attr('data-amount');
+            var sub_amount = Number(sub_amount_str);
+            console.log(sub_amount);
+            var amount = amount + sub_amount;
+            console.log(amount);
+        };        
