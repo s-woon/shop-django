@@ -45,50 +45,46 @@
         </tr>
         {% endfor %}
         <tr>
-            <td colspan="5"><h3 style="text-align:right; margin-top: 20px;">총 합계금액 : </h3></td>
-            <td colspan="5"><h3 class="amount" style="text-align:right; margin-top: 20px;">{{ total }}</h3></td>
+            <td colspan="5"><h3 style="height: 30px; line-height:30px; text-align:right;">총 합계금액 : </h3></td>
+            <td colspan="5"><h3 class="amount" style="height: 30px; line-height:30px; text-align:center;">{{ total }}</h3></td>
         </tr>
         </tbody>
     </table>
 </div>
 <div>
-    <div style="width: 250px; margin: 20px auto;">
+    <div style="width: 250px; margin: 0px auto 50px auto;">
         <button type="button" class="btn btn-dark" onClick="delRow();">선택상품삭제</button>
         <button type="button" class="btn btn-dark" onClick="delAllRow()">장바구니비우기</button>
     </div>
 </div>
-<table style="width: 700px; border: 1px solid black; margin: 30px auto;">
-    <tr>
-        <td style="border: 1px solid black;">
-    <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호">
-        </td>
-        <td style="border: 1px solid black;">
-    <input type="button" class="btn btn-primary btn-lg btn-block" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-        </td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid black;">
-    <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소">
-        </td>
-        <td style="border: 1px solid black;">
-    <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소">
-        </td>
-    </tr>
-    <span id="guide" style="color:#999;display:none"></span>
-    <tr>
-        <td colspan="2" style="border: 1px solid black;">
-    <input type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소">
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" style="border: 1px solid black;">
-    <input type="text" class="form-control" id="sample4_extraAddress" placeholder="참고항목">
-        </td>
-    </tr>
-</table>
+<div style="width:600px; padding: 30px 20px; margin:0 auto; box-shadow: 0 0 4px gray;">
+<legend>주소검색</legend>
+<div class="row">
+    <div class="col-xs-6 col-md-6">
+        <input type="text" id="sample4_postcode" class="form-control input-lg" placeholder="우편번호">
+    </div>
+    <div class="col-xs-6 col-md-6">
+        <input type="button" onclick="sample4_execDaumPostcode()" class="btn btn-lg btn-primary btn-block signup-btn" value="우편번호 찾기"><br>
+    </div>
+</div>
+<br>
+<input type="text" id="sample4_roadAddress" class="form-control input-lg" placeholder="도로명주소">
+<br>
+<input type="text" id="sample4_jibunAddress" class="form-control input-lg" placeholder="지번주소">
+<br>
+<span id="guide" style="color:#999;display:none"></span>
+<input type="text" id="sample4_detailAddress" class="form-control input-lg" placeholder="상세주소">
+<br>
+<input type="text" id="sample4_extraAddress" class="form-control input-lg" placeholder="참고항목">
+</div>
+
+<!--팝업-->
+
 <div>
-    <div style="width: 150px; margin: 20px auto;">
-        <button type="button" class="btn btn-danger" onClick="pay();" style="width: 150px;">결제하기</button>
+    <div style="width: 500px; margin: 20px auto;">
+        <button type="button" class="paybtn btn" onClick="pay();" style=
+                "width: 200px; height: 60px; box-shodow: 0 0 4px gray; background-image: url({% static 'image/naverpay.png' %}); background-size: 200px 60px; background-repeat: no-repeat;"></button>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

@@ -8,6 +8,9 @@
                     <img src="{% static 'image/hi.png' %}" style="width:20px; height:20px;"> Welcome, {{ user.username }} <i class="fas fa-user-circle"></i>
                 </li>
                 <li>
+                    <a href="{% url 'cart:cart' %}"><img src="{% static 'image/cart.png' %}"> Cart <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+                <li>
                     <a href="{% url 'common:logout' %}">Sign out <i class="fas fa-sign-out-alt"></i></a>
                 </li>
             {% else %}

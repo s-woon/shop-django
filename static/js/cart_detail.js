@@ -168,3 +168,8 @@ function sample4_execDaumPostcode() {
         }
     }).open();
 }
+
+
+function pay() {
+    console.log('test');
+}
