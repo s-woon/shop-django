@@ -38,14 +38,15 @@
             <td class="name">{{ item.product.name }}</td>
             <td class="price">{{ item.product.price }}</td>
             <td><input type="number" class="quantity" min="1" max="{{ item.product.stock }}" value="{{ item.quantity }}" style="width: 100px; height: 35px; line-height: 35px;"></td>
-            <td class="sub_amount" style="width: 150px;">{{ item.sub_total }}<input type="hidden" class="sub_amount_val" value="{{ item.sub_total }}"></td>
+            <td class="sub_amount" style="width: 150px;">{{ item.sub_total }}</td>
             <input type="hidden" class="proId" value="{{ item.product.id }}">
             <input type="hidden" class="stock" value="{{ item.product.stock }}">
             <input type="hidden" class="ordId" value="{{ item.id }}">
         </tr>
         {% endfor %}
         <tr>
-            <td colspan="6"><h3 class="amount" style="text-align:right; margin-top: 20px; margin-right: 160px;">총 합계금액 : {{ items.get_cart_total }}</h3></td>
+            <td colspan="5"><h3 style="text-align:right; margin-top: 20px;">총 합계금액 : </h3></td>
+            <td colspan="5"><h3 class="amount" style="text-align:right; margin-top: 20px;">{{ total }}</h3></td>
         </tr>
         </tbody>
     </table>
@@ -95,6 +96,7 @@
 var update_cart = "{% url 'cart:update_cart' %}"
 var del_cart = "{% url 'cart:delete_cart' %}"
 var del_all_cart = "{% url 'cart:delete_all_cart' %}"
+var total = {{ total }}
 </script>
 <script type="text/javascript" src="{% static 'js/cart_detail.js' %}"></script>
 {% endblock %}

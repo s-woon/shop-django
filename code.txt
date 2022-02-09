@@ -60,17 +60,16 @@ var quantity = $('.quantity');
         
         
 
-	    <!--수량에 따라 합계 바꾸기-->
-        $(this).parent().next().text(proQuantity*proPrice);
-
-        <!--수량에 따라 총 합계 바꾸기-->
-        var amount = Number();
+	<!--총 합계금액 바꾸기-->
         var $objTr = $(".container tbody tr");
+        var $subAmount = $(".sub_amount");
         var trCount = $objTr.size()-1;
-        for (var i=1; i<trCount; i++){
+        var subAmount = $(this).parent().next().text(proQuantity*proPrice);
+        console.log(subAmount.text());
+
+        for (var i=0; i<trCount; i++){
             var sub_amount_str = $objTr.eq(i).attr('data-amount');
             var sub_amount = Number(sub_amount_str);
-            console.log(sub_amount);
             var amount = amount + sub_amount;
-            console.log(amount);
-        };        
+
+        }; 
