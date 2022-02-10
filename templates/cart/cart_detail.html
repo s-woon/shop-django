@@ -53,7 +53,7 @@
 </div>
 <div>
     <div style="width: 250px; margin: 0px auto 50px auto;">
-        <button type="button" class="btn btn-dark" onClick="delRow();">선택상품삭제</button>
+        <button type="button" class="btn btn-dark" onClick="delRow()">선택상품삭제</button>
         <button type="button" class="btn btn-dark" onClick="delAllRow()">장바구니비우기</button>
     </div>
 </div>
@@ -81,18 +81,22 @@
 <!--팝업-->
 
 <div>
-    <div style="width: 500px; margin: 20px auto;">
-        <button type="button" class="paybtn btn" onClick="pay();" style=
-                "width: 200px; height: 60px; box-shodow: 0 0 4px gray; background-image: url({% static 'image/naverpay.png' %}); background-size: 200px 60px; background-repeat: no-repeat;"></button>
+    <div style="width: 600px; margin: 20px auto;">
+        <button type="button" class="paybtn btn" onClick="location.href='{% url 'order:naverpay' %}'"
+                style="width: 200px; height: 60px; box-shodow: 0 0 4px gray; background-image: url({% static 'image/naverpay.png' %}); background-size: 200px 60px; background-repeat: no-repeat; margin-right: 10px;"></button>
+        <button type="button" class="paybtn btn" onClick="location.href='{% url 'order:kakaopay' uid=uid %}'"
+                style="width: 150px; height: 60px; box-shodow: 0 0 4px gray; background-image: url({% static 'image/kakaopay.png' %}); background-size: 150px 60px; background-repeat: no-repeat; margin-right: 10px;"></button>
+        <button type="button" class="paybtn btn btn-danger" onClick="location.href='{% url 'order:cardpay' %}'"
+                style="width: 200px; height: 60px; box-shodow: 0 0 4px gray;">카드결제</button>
         <br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
-var update_cart = "{% url 'cart:update_cart' %}"
-var del_cart = "{% url 'cart:delete_cart' %}"
-var del_all_cart = "{% url 'cart:delete_all_cart' %}"
-var total = {{ total }}
+var update_cart = "{% url 'cart:update_cart' %}";
+var del_cart = "{% url 'cart:delete_cart' %}";
+var del_all_cart = "{% url 'cart:delete_all_cart' %}";
+var total = {{ total }};
 </script>
 <script type="text/javascript" src="{% static 'js/cart_detail.js' %}"></script>
 {% endblock %}

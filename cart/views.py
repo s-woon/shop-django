@@ -49,11 +49,13 @@ def delete_all_cart(request):
 
 def cart(request, total=0):
     model = CartItem.objects.filter(user_id=request.user.id)
+    uid = request.user.id
     for item in model:
         total += (item.product.price * item.quantity)
     context = {
         'items': model,
         'total': total,
+        'uid': uid,
     }
     return render(request, 'cart/cart_detail.html', context)
 
