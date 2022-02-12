@@ -7,12 +7,14 @@ import requests
 from cart.models import CartItem
 from product.models import Product
 from order.models import Order
+from django.db.models import Max
+
 # Create your views here.
 
 
 def kakaopay(request, uid, amount=0, totalQuantity=0):
     cartitem = CartItem.objects.filter(user_id=uid)
-    order = Order
+    order = Order()
     items = []
     # 총합가격
     for subtotal in cartitem:
@@ -24,12 +26,17 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
     for item in cartitem:
         items.append(item.product.name)
 
-
-    id = order.objects.latest('id')
-    if id == None:
+    try:
+        id = order.latest('id')
+    except:
         id = 0
 
     partner_order_id = id + 1
+
+    cartItemsName = ""
+    for i in items:
+        cartItemsName += i + ', '
+
 
     url = 'https://kapi.kakao.com/v1/payment/ready'
     headers = {
@@ -39,8 +46,8 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
     data = {
         'cid': "TC0ONETIME",
         'partner_order_id': partner_order_id,
-        'partner_user_id': cartitem.user.username,
-        'item_name': items,
+        'partner_user_id': cartitem[0].user.username,
+        'item_name': cartItemsName,
         'quantity': totalQuantity,
         'total_amount': amount,
         'tax_free_amount': 0,
@@ -56,12 +63,21 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
     next_url = result['next_redirect_pc_url']
 
     # DB 저장
-    order.user = cartitem.user
+    for i in range(len(items)):
+        order.partner_order_id = partner_order_id
+        order.tid = request.session['tid']
+        order.user = cartitem[i].user
+        order.product = cartitem[i].product
+        order.quantity = cartitem[i].quantity
+        order.amount = amount
+        order.save()
     return redirect(next_url)
 
 
 def kakaosuccess(request):
-    print(request.session.keys())
+    print(request.session['tid'])
+    order = Order.objects.get(tid=request.session['tid'])
+    print(order.partner_order_id)
     URL = 'https://kapi.kakao.com/v1/payment/approve'
     headers = {
         "Authorization": "KakaoAK ",
@@ -69,9 +85,10 @@ def kakaosuccess(request):
     }
     params = {
         "cid": "TC0ONETIME",  # 테스트용 코드
+        # "tid": order.tid,
         "tid": request.session['tid'],  # 결제 요청시 세션에 저장한 tid
-        "partner_order_id": "1",  # 주문번호
-        "partner_user_id": "german",  # 유저 아이디
+        "partner_order_id": order.partner_order_id,  # 주문번호
+        "partner_user_id": order.user.username,  # 유저 아이디
         "pg_token": request.GET.get("pg_token"),  # 쿼리 스트링으로 받은 pg토큰
     }
     res = requests.post(URL, headers=headers, params=params)
@@ -98,4 +115,5 @@ def naverpay(request):
 
 def cardpay(request):
     pass
+
 
