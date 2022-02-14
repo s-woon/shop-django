@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
     로그인
 {% endblock %}
 {% block content %}
-<div class="container my-3">
+<div class="container my-3" style="width:500px;">
     <div class="row">
         <div class="col-4">
             <h4>로그인</h4>
@@ -27,6 +28,8 @@
                    value="{{ form.password.value|default_if_none:'' }}">
         </div>
         <button type="submit" class="btn btn-primary">로그인</button>
+        <button type="button" class="paybtn btn" onClick="location.href='{% url 'common:kakao_login' %}'"
+                style="width: 183px; height: 45px; box-shodow: 0 0 4px gray; background-image: url({% static 'image/kakaologin.png' %}); background-size: 183px 45px; background-repeat: no-repeat; margin-right: 10px;"></button>
     </form>
 </div>
 {% endblock %}

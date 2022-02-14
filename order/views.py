@@ -27,7 +27,7 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
         items.append(item.product.name)
 
     try:
-        id = order.latest('id')
+        id = order.objects.latest('id')
     except:
         id = 0
 
@@ -40,7 +40,7 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
 
     url = 'https://kapi.kakao.com/v1/payment/ready'
     headers = {
-        'Authorization': 'KakaoAK ',
+        'Authorization': 'KakaoAK f196df0da493688c8ed902174993a90e',
         'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
     }
     data = {
@@ -75,12 +75,11 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
 
 
 def kakaosuccess(request):
-    print(request.session['tid'])
+    print(request.session)
     order = Order.objects.get(tid=request.session['tid'])
-    print(order.partner_order_id)
     URL = 'https://kapi.kakao.com/v1/payment/approve'
     headers = {
-        "Authorization": "KakaoAK ",
+        "Authorization": "KakaoAK f196df0da493688c8ed902174993a90e",
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
     }
     params = {
@@ -98,6 +97,8 @@ def kakaosuccess(request):
         'res': res,
         'amount': amount,
     }
+    cartitem = CartItem.objects.filter(user_id=order.user)
+    cartitem.delete()
     return render(request, 'kakaopay/success.html', context)
 
 

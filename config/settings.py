@@ -28,6 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 
 # Application definition
 
@@ -42,7 +47,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 카카오톡 소셜 로그인 관련 부분
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,5 +149,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #사용자가 업로드한 파일 �
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'  # 로그인 성공후 이동하는 URL
-
 LOGOUT_REDIRECT_URL = '/'  # 로그아웃시 이동하는 URL

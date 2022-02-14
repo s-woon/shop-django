@@ -8,4 +8,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='common/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),
+
+    path('login/kakao/', views.kakao_login, name="kakao_login"),
+    path('login/kakao/callback/', views.kakao_login_callback, name="kakao_callback"),
 ]
