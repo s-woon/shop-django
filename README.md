@@ -1,5 +1,5 @@
 # shop-django
 
-python, django, HTML5, CSS3, sqlite3
+python, django, HTML5, CSS3, javascript, sqlite3
 
 
