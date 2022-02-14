@@ -28,7 +28,7 @@ def signup(request):
 
 
 def kakao_login(request):
-    CLIENT_ID = "ae9d5bd57e76f978a74ff65c633debf9"
+    CLIENT_ID = "" # REST API
     REDIRET_URL = "http://localhost:8080/common/login/kakao/callback/"
     url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={0}&redirect_uri={1}".format(
         CLIENT_ID, REDIRET_URL)
@@ -41,7 +41,7 @@ def kakao_login_callback(request):
     kakao_token_api = "https://kauth.kakao.com/oauth/token"
     data = {
         'grant_type': 'authorization_code',
-        'client_id': "ae9d5bd57e76f978a74ff65c633debf9",
+        'client_id': "", # REST API
         'redirect_url': "http://localhost:8080/common/login/kakao/callback/",
         'code': CODE,
     }

@@ -40,7 +40,7 @@ def kakaopay(request, uid, amount=0, totalQuantity=0):
 
     url = 'https://kapi.kakao.com/v1/payment/ready'
     headers = {
-        'Authorization': 'KakaoAK f196df0da493688c8ed902174993a90e',
+        'Authorization': 'KakaoAK ',
         'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
     }
     data = {
@@ -79,7 +79,7 @@ def kakaosuccess(request):
     order = Order.objects.get(tid=request.session['tid'])
     URL = 'https://kapi.kakao.com/v1/payment/approve'
     headers = {
-        "Authorization": "KakaoAK f196df0da493688c8ed902174993a90e",
+        "Authorization": "KakaoAK ",
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
     }
     params = {
